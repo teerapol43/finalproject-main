@@ -16,9 +16,14 @@ const OrderSchema = new mongoose.Schema(
     ],
     cartTotal: Number,
     fulladdress: {
-      type: ObjectId,
-      ref: "address", // อ้างอิงไปยังโมเดล address
+      houseNumber: String,
+      subdistrict: String,
+      district: String,
+      province: String,
+      zipcode: String,
     },
+    phoneNumber: String,
+    name: String,
     orderstatus: {
       type: String,
       default: "Processing",

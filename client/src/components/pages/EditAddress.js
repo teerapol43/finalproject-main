@@ -105,41 +105,43 @@ const EditUserAddress = () => {
   console.log("ที่อยู่", values.fulladdress);
   return (
     <div>
-  <h2>Edit User Address</h2>
+      <h2>Edit User Address</h2>
 
-  {error && <p>Error: {error}</p>}
+      {error && <p>Error: {error}</p>}
 
-  <div>
-    <h3>Choose Address to Edit:</h3>
+      <div>
+        <h3>Choose Address to Edit:</h3>
 
-    {addresses.length === 0 && (
-      <button onClick={() => navigate('/create-address')}>Create Address</button>
-    )}
-
-    <ul>
-      {addresses.map((address) => (
-        <li
-          key={address._id}
-          onClick={() => handleAddressSelect(address)}
-          style={{
-            border: selectedAddress === address ? "2px solid blue" : "none",
-            padding: "5px",
-            margin: "5px",
-            cursor: "pointer",
-          }}
-        >
-          {`${address.fulladdress.houseNumber}, ${address.fulladdress.subdistrict}, ${address.fulladdress.district}, ${address.fulladdress.province}, ${address.fulladdress.zipcode}, ${address.name}, ${address.phoneNumber}`}
-
-          <button
-            onClick={() => handleRemoveAddress(address._id)}
-            style={{ marginLeft: "10px" }}
-          >
-            Remove Address
+        {addresses.length === 0 && (
+          <button onClick={() => navigate("/user/address")}>
+            Create Address
           </button>
-        </li>
-      ))}
-    </ul>
-  </div>
+        )}
+
+        <ul>
+          {addresses.slice(0, 3).map((address) => (
+            <li
+              key={address._id}
+              onClick={() => handleAddressSelect(address)}
+              style={{
+                border: selectedAddress === address ? "2px solid blue" : "none",
+                padding: "5px",
+                margin: "5px",
+                cursor: "pointer",
+              }}
+            >
+              {`${address.fulladdress.houseNumber}, ${address.fulladdress.subdistrict}, ${address.fulladdress.district}, ${address.fulladdress.province}, ${address.fulladdress.zipcode}, ${address.name}, ${address.phoneNumber}`}
+
+              <button
+                onClick={() => handleRemoveAddress(address._id)}
+                style={{ marginLeft: "10px" }}
+              >
+                Remove Address
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <label>

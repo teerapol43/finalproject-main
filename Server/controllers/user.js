@@ -436,21 +436,27 @@ exports.getPassWord = async (req, res) => {
 };
 exports.saveOrder = async (req, res) => {
   try {
-    console.log(req.body.images); // Log the images from the request body
+    // Log the images from the request body
+    const AddressOrder = await Address.find({
+      addressBy: req.body.selectedAddress.addressBy,
+    })
+      .populate("fulladdress")
+      .exec();
     const user = await User.findOne({ username: req.user.username }).exec();
 
     if (!user) {
       return res.status(404).send("User not found");
     }
-
+    console.log("addressId", req.body.selectedAddress.name);
     const userCart = await Cart.findOne({ orderBy: user._id }).exec();
 
     if (!userCart) {
-      return res.status(404).send("User cart not found");
+      return res.status(405).send("User cart not found");
     }
-
     const order = await new Order({
-      fulladdress: Address.fulladdress,
+      fulladdress: req.body.selectedAddress.fulladdress,
+      name: req.body.selectedAddress.name,
+      phoneNumber: req.body.selectedAddress.phoneNumber,
       products: userCart.products,
       orderBy: user._id,
       cartTotal: userCart.cartTotal,

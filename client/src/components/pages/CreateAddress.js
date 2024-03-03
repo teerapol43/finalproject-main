@@ -1,21 +1,21 @@
-// src/components/CreateAddress.js
 import React, { useState } from "react";
-import axios from "axios";
-import { createAddress } from "../functions/user";
 import { useSelector } from "react-redux";
+import { createAddress } from "../functions/user";
+import { useNavigate } from "react-router-dom";
 
 const CreateAddress = () => {
   const { user } = useSelector((state) => ({ ...state }));
+  const navigate = useNavigate();
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState();
   const [values, setValues] = useState({
-    fulladdress: [
-      {
-        houseNumber: "",
-        subdistrict: "",
-        district: "",
-        province: "",
-        zipcode: "",
-      },
-    ],
+    fulladdress: {
+      houseNumber: "",
+      subdistrict: "",
+      district: "",
+      province: "",
+      zipcode: "",
+    },
     name: "",
     phoneNumber: "",
   });
@@ -46,15 +46,15 @@ const CreateAddress = () => {
 
     try {
       await createAddress(user.user.token, user.user.user_id, values);
-      console.log(user.user.user_id);
-      console.log("Address created successfully:");
-      // Handle success, e.g., show a success message or redirect
+      console.log("Address created successfully");
+
+      // Navigate to the editAddress page after successful form submission
+      navigate("/user/address/editAddress");
     } catch (error) {
       console.error("Error creating address:", error);
       // Handle error, e.g., show an error message to the user
     }
   };
-
   return (
     <div>
       <h2>Create Address</h2>

@@ -307,6 +307,7 @@ export const getProvince = async (authtoken, province) => {
 };
 
 export const saveOrder = async (authtoken, values) => {
+  console.log("values", values);
   return await axios.post(process.env.REACT_APP_API + "/user/order", values, {
     headers: {
       authtoken,
