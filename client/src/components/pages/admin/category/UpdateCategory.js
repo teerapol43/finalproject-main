@@ -3,7 +3,6 @@ import { readCategory, editCategory } from "../../../functions/Category";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { editProductTime } from "../../../functions/user";
 const UpdateCategory = () => {
   const navigate = useNavigate();
   const param = useParams();
@@ -25,7 +24,6 @@ const UpdateCategory = () => {
     e.preventDefault();
     editCategory(user.user.token, param.id, { name })
       .then((res) => {
-        editProductTime(user.user.token, user.user.user_id);
         navigate("/admin/create-category");
         toast.success("อัพเดท " + res.data.name + " สำเร็จ");
       })

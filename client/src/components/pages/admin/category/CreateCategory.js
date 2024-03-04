@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { editProductTime } from "../../../functions/user";
 
 const CreateCategory = () => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -36,7 +35,6 @@ const CreateCategory = () => {
     if (confirmDelete) {
       deleteCategory(user.user.token, id)
         .then((res) => {
-          editProductTime(user.user.token, user.user.token);
           console.log(res);
           loadData(user.user.token);
           toast.success("ลบหมวดหมู่เรียบร้อยแล้ว");
@@ -56,7 +54,6 @@ const CreateCategory = () => {
     e.preventDefault();
     createCategory(user.user.token, values)
       .then((res) => {
-        editProductTime(user.user.token, user.user.token);
         loadData(user.user.token);
         toast.success("สร้างหมวดหมู่เรียบร้อยแล้ว");
       })

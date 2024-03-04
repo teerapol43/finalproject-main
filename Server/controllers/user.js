@@ -163,7 +163,6 @@ exports.userCart = async (req, res) => {
   try {
     // Destructure the cart array from the request body
     const { cart } = req.body;
-
     // Find the user based on the username in the request
     const user = await User.findOne({ username: req.user.username }).exec();
 
@@ -179,7 +178,6 @@ exports.userCart = async (req, res) => {
     // Loop through the cart items and format them for the new cart
     for (let i = 0; i < cart.length; i++) {
       let object = {
-        Product: cart[i]._id,
         name: cart[i].name,
         count: cart[i].count,
         price: cart[i].price,
@@ -194,7 +192,7 @@ exports.userCart = async (req, res) => {
     }
 
     // Create a new Cart document and save it to the database
-    let newCart = await new Cart({
+    let newCart = await Cart({
       products,
       cartTotal,
       orderBy: user._id,
@@ -436,23 +434,26 @@ exports.getPassWord = async (req, res) => {
 };
 exports.saveOrder = async (req, res) => {
   try {
-    // Log the images from the request body
-    const AddressOrder = await Address.find({
+    const addressOrder = await Address.findOne({
       addressBy: req.body.selectedAddress.addressBy,
     })
       .populate("fulladdress")
       .exec();
+
     const user = await User.findOne({ username: req.user.username }).exec();
 
     if (!user) {
       return res.status(404).send("User not found");
     }
-    console.log("addressId", req.body.selectedAddress.name);
-    const userCart = await Cart.findOne({ orderBy: user._id }).exec();
 
+    const userCart = await Cart.findOne({ orderBy: user._id }).exec();
+    console.log(userCart);
     if (!userCart) {
       return res.status(405).send("User cart not found");
     }
+
+    // Increment the 'sold' count for each product in the order
+    // Save the order
     const order = await new Order({
       fulladdress: req.body.selectedAddress.fulladdress,
       name: req.body.selectedAddress.name,
@@ -460,15 +461,25 @@ exports.saveOrder = async (req, res) => {
       products: userCart.products,
       orderBy: user._id,
       cartTotal: userCart.cartTotal,
-      images: req.body.images, // Assuming images are in the request body
+      images: req.body.images,
     }).save();
-
-    res.status(201).send(order); // Sending 201 Created status with the saved order
+    let bulkOption = userCart.products.map((item) => {
+      return {
+        updateOne: {
+          filter: { name: item.name },
+          update: { $inc: { sold: +item.count } },
+        },
+      };
+    });
+    let updated = await Product.bulkWrite(bulkOption, {});
+    res.send(updated);
+    // Send the updated products as a response
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error while saving order");
   }
 };
+
 exports.getOrder = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.user.username }).exec();

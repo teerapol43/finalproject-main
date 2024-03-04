@@ -124,6 +124,7 @@ export const resetPassword = async (authtoken, id, values) => {
   });
 };
 export const userCart = async (authtoken, cart) => {
+  console.log("cart", cart);
   return await axios.post(
     process.env.REACT_APP_API + "/user/cart",
     { cart },
@@ -307,7 +308,6 @@ export const getProvince = async (authtoken, province) => {
 };
 
 export const saveOrder = async (authtoken, values) => {
-  console.log("values", values);
   return await axios.post(process.env.REACT_APP_API + "/user/order", values, {
     headers: {
       authtoken,

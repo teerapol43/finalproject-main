@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import SlipUpload from "./SlipUpload";
 import QRCode from "qrcode.react";
 import styled from "styled-components";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 const Checkout = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const [products, setProducts] = useState([]);
@@ -130,8 +130,9 @@ const Checkout = () => {
         await saveOrder(user.user.token, {
           selectedAddress,
           products,
+        }).then((res) => {
+          console.log(res.data);
         });
-
         emptyCart(user.user.token);
         dispatch({
           type: "addToCart",
@@ -139,6 +140,7 @@ const Checkout = () => {
         });
 
         toast.success("Save Order Success");
+        /* navigate("/user/history"); */
       } catch (error) {
         console.error("Error during checkout:", error);
         toast.error("Error during checkout. Please try again.");
@@ -212,8 +214,10 @@ const Checkout = () => {
                 {page === 0 ? (
                   <>
                     {addresses.length === 0 && (
-                      <button onClick={() => navigate("/user/address")}>
-                        Create Address
+                      <button>
+                        <Link to="/user/address" state="/checkout">
+                          Create Address
+                        </Link>
                       </button>
                     )}
                     <ul>

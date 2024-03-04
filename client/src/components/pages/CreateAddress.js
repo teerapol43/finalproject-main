@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { createAddress } from "../functions/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CreateAddress = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState();
+  const location = useLocation();
+  console.log("lo", location);
   const [values, setValues] = useState({
     fulladdress: {
       houseNumber: "",
@@ -42,14 +44,17 @@ const CreateAddress = () => {
   };
 
   const handleSubmit = async (e) => {
+    let intended = location.state;
     e.preventDefault();
 
     try {
       await createAddress(user.user.token, user.user.user_id, values);
-      console.log("Address created successfully");
-
-      // Navigate to the editAddress page after successful form submission
-      navigate("/user/address/editAddress");
+      if (intended) {
+        navigate("../" + intended);
+      } else {
+        // Navigate to the editAddress page after successful form submission
+        navigate("/user/address/editAddress");
+      }
     } catch (error) {
       console.error("Error creating address:", error);
       // Handle error, e.g., show an error message to the user
