@@ -82,7 +82,7 @@ const ManageAdmin = () => {
     };
     changeRole(user.user.token, values)
       .then((res) => {
-        editUserTime(user.user.token, user.user.user_id);
+        editUserTime(user.user.token, user.user.user_id, values);
         console.log(res);
         loadData(user.user.token);
       })

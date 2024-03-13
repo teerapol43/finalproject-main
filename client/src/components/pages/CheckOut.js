@@ -33,6 +33,7 @@ const Checkout = () => {
     },
     name: "",
     phoneNumber: "",
+    images: [],
   });
 
   const dispatch = useDispatch();
@@ -74,7 +75,7 @@ const Checkout = () => {
     setValues(selectedAddress);
     setSelectedAddress(selectedAddress);
   };
-
+  console.log("เช็คvalues", values);
   const handleChange = (e) => {
     setValues({
       ...values,
@@ -128,6 +129,7 @@ const Checkout = () => {
     } else {
       try {
         await saveOrder(user.user.token, {
+          values,
           selectedAddress,
           products,
         }).then((res) => {
@@ -249,21 +251,6 @@ const Checkout = () => {
                   </>
                 ) : (
                   <div className="payment-section">
-                    <Container>
-                      <Title>ชำระเงินที่นี้</Title>
-                      <FlexContainer>
-                        <QRWrapper>
-                          <QRCode value={qrCode} />
-                          <InputWrapper>
-                            <p>ชื่อบัญชี อาทิตยา ฆารเลิศ</p>
-                            <p>
-                              โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ
-                              จำนวนเงิน {total} บาท
-                            </p>
-                          </InputWrapper>
-                        </QRWrapper>
-                      </FlexContainer>
-                    </Container>
                     <p id="image-preview"></p>
                     <div className="upload-slip-section">
                       <label htmlFor="slipt" className="upload-slip-btn">

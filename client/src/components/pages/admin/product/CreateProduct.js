@@ -15,6 +15,7 @@ const initialstate = {
   category: "",
   price: "",
   images: [],
+  state: "Create Product",
 };
 const CreateProduct = () => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -56,7 +57,7 @@ const CreateProduct = () => {
       // Proceed with creating the product if the ID is not duplicate
       createProduct(user.user.token, values)
         .then((res) => {
-          editProductTime(user.user.token, user.user.user_id);
+          editProductTime(user.user.token, user.user.user_id, values);
           toast.success("สร้างสินค้าสำเร็จ");
           navigate("/admin/product");
         })

@@ -23,11 +23,12 @@ const Order = () => {
   }, []);
 
   const loadData = () => {
-    Promise.all([getOrders(user.user.token)])
-    .then(([ordersRes, addressRes, phoneNumberRes, nameRes]) => {
-      console.log("Orders response:", ordersRes.data);
-      setOrders(ordersRes.data);
-    });
+    Promise.all([getOrders(user.user.token)]).then(
+      ([ordersRes, addressRes, phoneNumberRes, nameRes]) => {
+        console.log("Orders response:", ordersRes.data);
+        setOrders(ordersRes.data);
+      }
+    );
 
     getOrdersAdmin(user.user.token)
       .then((res) => {
@@ -56,7 +57,7 @@ const Order = () => {
   const handleChangeStatus = (orderId, orderstatus) => {
     updateStatusOrder(user.user.token, orderId, orderstatus)
       .then((res) => {
-        editOrderTime(user.user.token, user.user.user_id);
+        editOrderTime(user.user.token, user.user.user_id, orderId, orderstatus);
         toast.info("อัพเดท " + res.data.orderstatus + " สำเร็จ");
         loadData();
       })
