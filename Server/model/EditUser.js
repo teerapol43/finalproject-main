@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
-const { Schema, ObjectId } = mongoose; // Importing Schema and ObjectId from Mongoose
+const { ObjectId } = mongoose.Types; // Add this line to import ObjectId
 
-const editUserDetailSchema = Schema(
+const editUserDetailSchema = mongoose.Schema(
   {
-    editUserById: [
-      {
-        type: ObjectId,
-        ref: "user",
-      },
-    ],
-    editUserId: {
+    editUserBy: {
+      type: String,
+    },
+    editUser: {
       type: String,
     },
     editUserDetail: {

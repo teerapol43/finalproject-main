@@ -50,18 +50,6 @@ const userSchema = mongoose.Schema(
         ref: "product",
       },
     ],
-    editUserTime: {
-      type: Date,
-      default: null,
-    },
-    editProductTime: {
-      type: Date,
-      default: null,
-    },
-    editOrderTime: {
-      type: Date,
-      default: null,
-    },
   },
   { timestamps: true }
 );

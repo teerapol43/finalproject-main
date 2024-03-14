@@ -42,6 +42,9 @@ const {
   listAddress,
   editAddress,
   removeAddress,
+  getEditUser,
+  getEditOrder,
+  getEditProduct,
 } = require("../controllers/user");
 const { auth, adminCheck } = require("../Middleware/auth");
 
@@ -72,6 +75,10 @@ router.get("/user", auth, getUserName);
 router.post("/users/edit-user-time/:id", auth, adminCheck, editUserTime);
 router.post("/users/edit-order-time/:id", editOrderTime);
 router.post("/users/edit-product-time/:id", auth, adminCheck, editProductTime);
+router.get("/edit-user-details", getEditUser);
+router.get("/edit-order-details", getEditOrder);
+router.get("/edit-product-details", getEditProduct);
+
 router.get("/user", auth, getPassWord);
 
 //@Endpoint  http://localhost:5000/api/change-status

@@ -102,34 +102,73 @@ exports.changeStatus = async (req, res) => {
 exports.editUserTime = async (req, res) => {
   try {
     const { id } = req.params; // Extract user ID from route parameters
+    const userBy = await User.findOne({ _id: id }).exec();
+    const userEdit = await User.findOne({ _id: req.body.id }).exec();
 
     // Create an array containing the ObjectId from the extracted user ID
 
     // Create a new instance of EditUserDetail
     const newEditUser = new EditUser({
-      editUserById: id, // Pass the array of ObjectId
-      editUserId: req.body.id,
+      editUserBy: userBy.username, // Pass the array of ObjectId
+      editUser: userEdit.username,
       editUserDetail: req.body.role,
       editedTime: new Date(), // Setting the current date and time
     });
 
     // Save the new entry to the database
     await newEditUser.save();
-
-    res.status(200).json({ message: "EditUserTime updated successfully" });
+    console.log(newEditUser);
+    res.status(200).json({ newEditUser });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server editUserTime Error!");
   }
 };
+
+exports.getEditUser = async (req, res) => {
+  try {
+    // Query the EditUserDetail collection to get all details
+    const editUserDetails = await EditUser.find({});
+    console.log(editUserDetails);
+    res.status(200).json(editUserDetails);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error while fetching EditUserDetails!");
+  }
+};
+exports.getEditOrder = async (req, res) => {
+  try {
+    // Query the EditUserDetail collection to get all details
+    const editOrderDetails = await EditOrder.find({});
+    console.log(editOrderDetails);
+    res.status(200).json(editOrderDetails);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error while fetching EditUserDetails!");
+  }
+};
+exports.getEditProduct = async (req, res) => {
+  try {
+    // Query the EditUserDetail collection to get all details
+    const editProductDetails = await EditProduct.find({});
+    console.log(editProductDetails);
+    res.status(200).json(editProductDetails);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error while fetching EditUserDetails!");
+  }
+};
+
 exports.editOrderTime = async (req, res) => {
   try {
     const { id } = req.params; // Extract user ID from route parameters
+    const userBy = await User.findOne({ _id: id }).exec();
+    const OrderEdit = await Order.findOne({ _id: req.body.orderId }).exec();
     // Create an array containing the ObjectId from the extracted user ID
-
+    console.log("values", userBy.username);
     // Create a new instance of EditUserDetail
     const newEditOrder = new EditOrder({
-      editOrderById: id, // Pass the array of ObjectId
+      editOrderBy: userBy.username, // Pass the array of ObjectId
       editOrderId: req.body.orderId,
       editOrderDetail: req.body.orderstatus,
       editedTime: new Date(), // Setting the current date and time

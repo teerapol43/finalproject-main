@@ -3,12 +3,10 @@ const { Schema, ObjectId } = mongoose; // Importing Schema and ObjectId from Mon
 
 const editOrderDetailSchema = Schema(
   {
-    editOrderById: [
-      {
-        type: ObjectId,
-        ref: "user",
-      },
-    ],
+    editOrderById: {
+        type: String,
+  
+  },
     editOrderId: {
       type: String,
       ref: "order",
