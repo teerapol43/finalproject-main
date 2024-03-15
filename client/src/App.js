@@ -52,6 +52,9 @@ import Footer from "./components/pagehome/Footer";
 import CreateAddress from "./components/pages/CreateAddress";
 import AddressList from "./components/pages/GetAddress";
 import EditUserAddress from "./components/pages/EditAddress";
+import EditUserPage from "./components/pages/EditUserPage";
+import EditOrderPage from "./components/pages/EditOrderPage";
+import EditProductPage from "./components/pages/EditProductPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,6 +90,9 @@ function App() {
             </>
           }
         />
+        <Route path="/edituser" element={<EditUserPage />} />
+        <Route path="/editproduct" element={<EditProductPage />} />
+        <Route path="/editorder" element={<EditOrderPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         {/* Other Routes */}

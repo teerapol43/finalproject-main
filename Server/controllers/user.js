@@ -165,7 +165,6 @@ exports.editOrderTime = async (req, res) => {
     const userBy = await User.findOne({ _id: id }).exec();
     const OrderEdit = await Order.findOne({ _id: req.body.orderId }).exec();
     // Create an array containing the ObjectId from the extracted user ID
-    console.log("values", userBy.username);
     // Create a new instance of EditUserDetail
     const newEditOrder = new EditOrder({
       editOrderBy: userBy.username, // Pass the array of ObjectId
